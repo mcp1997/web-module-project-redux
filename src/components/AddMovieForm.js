@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { addMovie } from './../actions/movieActions';
-import { connect } from 'react-redux';
-
 import { Link, useHistory } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { addMovie } from './../actions/movieActions';
 
 const AddMovieForm = (props) => {
     const { push } = useHistory();
@@ -23,6 +23,13 @@ const AddMovieForm = (props) => {
     }
 
     const handleSubmit = (e) => {
+      const newMovie = {
+        ...movie,
+        id: Date.now()
+      }
+      e.preventDefault()
+      props.addMovie(newMovie)
+      push('/movies')
     }
 
     const { title, director, genre, metascore, description } = movie;
@@ -67,4 +74,4 @@ const AddMovieForm = (props) => {
     </div>);
 }
 
-export default AddMovieForm;
+export default connect(null, { addMovie })(AddMovieForm);
